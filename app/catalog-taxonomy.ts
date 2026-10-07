@@ -1,0 +1,35 @@
+export const categories = [
+  "Диагностика", "Техническое обслуживание", "Замена масла и жидкостей", "Шиномонтаж",
+  "Ремонт двигателя", "Трансмиссия и сцепление", "Подвеска, тормоза и рулевое", "Автоэлектрика",
+  "Кузовной ремонт", "Автостёкла", "Кондиционеры и отопление", "Мойка и детейлинг",
+  "Сигнализации, ключи и замки", "Выездная помощь", "Другое",
+] as const;
+export type Category = typeof categories[number];
+
+export const services: Record<Category, string[]> = {
+  "Диагностика": ["Компьютерная диагностика", "Диагностика двигателя", "Диагностика ходовой", "Диагностика электрики", "Диагностика перед покупкой", "Проверка аккумулятора", "Диагностика тормозов", "Эндоскопия двигателя", "Проверка ошибок ЭБУ"],
+  "Техническое обслуживание": ["Плановое ТО", "Замена фильтров", "Замена свечей", "Замена ремня ГРМ", "Замена цепи ГРМ", "Регулировка развала-схождения", "Подготовка к техосмотру"],
+  "Замена масла и жидкостей": ["Замена моторного масла", "Замена масла в АКПП", "Замена масла в МКПП", "Замена антифриза", "Замена тормозной жидкости", "Замена жидкости ГУР", "Промывка системы охлаждения"],
+  "Шиномонтаж": ["Сезонная смена шин", "Балансировка колёс", "Ремонт прокола", "Правка дисков", "Хранение шин", "Шиномонтаж на выезде", "Замена шин и дисков"],
+  "Ремонт двигателя": ["Капитальный ремонт двигателя", "Ремонт ГРМ", "Замена прокладки ГБЦ", "Ремонт турбины", "Ремонт системы охлаждения", "Замена двигателя", "Ремонт топливной системы"],
+  "Трансмиссия и сцепление": ["Ремонт АКПП", "Ремонт МКПП", "Замена сцепления", "Ремонт вариатора", "Замена ШРУС", "Ремонт редуктора", "Ремонт карданного вала"],
+  "Подвеска, тормоза и рулевое": ["Ремонт подвески", "Замена амортизаторов", "Замена ступичного подшипника", "Замена тормозных колодок", "Ремонт суппортов", "Замена тормозных дисков", "Ремонт рулевой рейки", "Развал-схождение"],
+  "Автоэлектрика": ["Поиск неисправности электрики", "Ремонт проводки", "Ремонт генератора", "Ремонт стартера", "Замена аккумулятора", "Ремонт освещения", "Диагностика электронных блоков"],
+  "Кузовной ремонт": ["Покраска кузова", "Рихтовка", "Удаление вмятин без покраски", "Полировка кузова", "Ремонт бампера", "Антикоррозийная обработка", "Сварочные работы"],
+  "Автостёкла": ["Замена лобового стекла", "Ремонт сколов", "Ремонт трещин", "Замена бокового стекла", "Тонировка стёкол", "Калибровка камеры после замены стекла"],
+  "Кондиционеры и отопление": ["Заправка кондиционера", "Ремонт кондиционера", "Диагностика климат-контроля", "Ремонт печки", "Чистка испарителя", "Замена радиатора отопителя"],
+  "Мойка и детейлинг": ["Мойка автомобиля", "Химчистка салона", "Полировка фар", "Защитное покрытие", "Керамическое покрытие", "Детейлинг салона", "Мойка двигателя"],
+  "Сигнализации, ключи и замки": ["Установка сигнализации", "Изготовление ключа", "Программирование ключа", "Ремонт замка", "Установка иммобилайзера", "Вскрытие автомобиля"],
+  "Выездная помощь": ["Запуск двигателя", "Замена колеса на месте", "Подвоз топлива", "Выездная диагностика", "Помощь с аккумулятором", "Мелкий ремонт на дороге", "Эвакуация автомобиля"],
+  "Другое": ["Нестандартная услуга", "Установка дополнительного оборудования", "Индивидуальная доработка автомобиля", "Услуга не из списка"],
+};
+
+export const models: Record<string, string[]> = {
+  Acura:["MDX","RDX","TLX","Integra"], "Alfa Romeo":["Giulia","Stelvio","159","Tonale"], Audi:["A1","A3","A4","A5","A6","A7","A8","Q2","Q3","Q5","Q7","Q8","e-tron"],
+  BMW:["1 серия","2 серия","3 серия","4 серия","5 серия","6 серия","7 серия","8 серия","X1","X2","X3","X4","X5","X6","X7","i3","i4","iX"],
+  BYD:["Dolphin","Seal","Atto 3","Song Plus","Han"], Cadillac:["Escalade","XT4","XT5","XT6","CTS"], Changan:["CS35","CS55","CS75","UNI-K","UNI-T"], Chery:["Tiggo 4","Tiggo 7","Tiggo 8","Arrizo 8"], Chevrolet:["Aveo","Cruze","Lacetti","Captiva","Niva","Tahoe"], Chrysler:["300C","Pacifica","Voyager"], Citroen:["C3","C4","C5","Berlingo","Jumper","C-Elysee"], Cupra:["Formentor","Leon","Born","Ateca"],
+  Dacia:["Duster","Logan","Sandero","Jogger"], Daewoo:["Matiz","Nexia","Lanos"], Dodge:["Challenger","Charger","Durango","Journey"], DS:["DS 3","DS 4","DS 7"], Fiat:["500","Panda","Tipo","Doblo","Ducato"], Ford:["Focus","Mondeo","Fiesta","Kuga","Escape","Explorer","Transit","Mustang"], GAC:["GS3","GS8","Emkoo","Empow"], Geely:["Coolray","Atlas","Atlas Pro","Monjaro","Emgrand","Tugella"], Genesis:["G70","G80","GV70","GV80"], "Great Wall":["Hover H3","Hover H5","Wingle"], Haval:["Jolion","F7","Dargo","H6","H9"], Honda:["Civic","Accord","CR-V","HR-V","Fit","Pilot"], Hyundai:["Solaris","Accent","Elantra","Sonata","i30","Tucson","Santa Fe","Creta","Kona","Palisade"],
+  Infiniti:["Q50","QX50","QX60","QX80","FX"], Jaguar:["XE","XF","F-Pace","E-Pace"], Jeep:["Compass","Cherokee","Grand Cherokee","Wrangler","Renegade"], Kia:["Rio","Ceed","Cerato","K5","Sportage","Sorento","Seltos","Soul","Carnival"], Lada:["Granta","Vesta","Largus","Niva","Kalina","Priora"], "Land Rover":["Defender","Discovery","Discovery Sport","Range Rover","Range Rover Sport","Evoque"], Lexus:["IS","ES","LS","NX","RX","GX","LX"], "Li Auto":["L6","L7","L8","L9"], Lincoln:["Aviator","Corsair","Navigator"], Mazda:["2","3","6","CX-3","CX-5","CX-30","CX-9","MX-5"], "Mercedes-Benz":["A-Class","B-Class","C-Class","E-Class","S-Class","CLA","CLS","GLA","GLB","GLC","GLE","GLS","G-Class","V-Class","Sprinter"], Mini:["Cooper","Countryman","Clubman","Paceman"], Mitsubishi:["Lancer","Outlander","ASX","Pajero","Eclipse Cross","L200"], Nissan:["Almera","Juke","Qashqai","X-Trail","Murano","Pathfinder","Note","Leaf"], Opel:["Astra","Corsa","Insignia","Vectra","Zafira","Mokka","Vivaro"], Peugeot:["206","208","308","408","508","2008","3008","5008","Partner","Boxer"], Porsche:["911","Cayenne","Macan","Panamera","Taycan"], Renault:["Logan","Sandero","Duster","Kaptur","Arkana","Megane","Scenic","Laguna","Clio","Master"], Seat:["Ibiza","Leon","Ateca","Arona","Alhambra"], Skoda:["Fabia","Rapid","Octavia","Superb","Karoq","Kodiaq","Yeti"], Subaru:["Impreza","Legacy","Forester","Outback","XV","Crosstrek"], Suzuki:["Swift","Vitara","Grand Vitara","SX4","Jimny"], Tesla:["Model 3","Model Y","Model S","Model X"], Toyota:["Yaris","Corolla","Camry","Avensis","RAV4","Highlander","Land Cruiser","Land Cruiser Prado","Prius","C-HR","Hilux"], Volkswagen:["Polo","Golf","Jetta","Passat","Tiguan","Touareg","Touran","Caddy","Transporter","Multivan","ID.4","ID.6"], Volvo:["S40","S60","S80","S90","V60","V90","XC40","XC60","XC90"], Zeekr:["001","007","X","009"],
+};
+
+export const brands = [...Object.keys(models), ...["Abarth","Aito","BAIC","Bentley","Buick","Chrysler","Daihatsu","Datsun","Dongfeng","FAW","Ferrari","Fisker","GMC","Hongqi","Hummer","Isuzu","JAC","Lamborghini","Lancia","Leapmotor","Lotus","Maserati","Maybach","MG","Moskvich","NIO","Omoda","Pontiac","Ram","Ravon","Rover","Saab","Smart","SsangYong","Tank","UAZ","Voyah","Wey","Xiaomi","XPeng","ZAZ"]].filter((value,index,array)=>array.indexOf(value)===index).sort((a,b)=>a.localeCompare(b));

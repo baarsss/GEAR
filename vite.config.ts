@@ -36,6 +36,10 @@ const localBindingConfig = {
 };
 
 export default defineConfig(async () => {
+  // Render runs a regular Node server, without Cloudflare's local emulator.
+  if (process.env.GEAR_RUNTIME === "node") {
+    return { plugins: [vinext()] };
+  }
   // Use Miniflare's local Request.cf placeholder unless fetching is requested.
   process.env.CLOUDFLARE_CF_FETCH_ENABLED ??= "false";
   process.env.WRANGLER_SEND_METRICS ??= "false";

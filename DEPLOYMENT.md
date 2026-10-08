@@ -6,7 +6,7 @@
 
 - Репозиторий: baarsss/GEAR, ветка main, корень репозитория.
 - Тип: Web Service, Node, тариф **Free**.
-- Build Command: `npm ci --include=dev && npm run build:node`
+- Build Command: `npm install --include=dev && npm run build:node`
 - Start Command: `npm run start:node`
 - Node: `22.22.0`, NODE_ENV: `production`.
 - Health Check: `/api/health`.
@@ -17,7 +17,7 @@
 
 ## Проверка перед публикацией
 
-1. `npm ci --include=dev`
+1. `npm install --include=dev`
 2. `npm run build:node`
 3. `npm run start:node`
 4. Проверить главную, фильтры, карту, /service/1, /privacy, /consent и /api/health.

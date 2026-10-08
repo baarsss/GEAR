@@ -5,6 +5,8 @@ import type { Map as LeafletMap } from "leaflet";
 import type { Provider } from "./catalog-data";
 import { cityCenters, type City } from "./catalog-data";
 
+const escapeHtml = (value: string) => value.replace(/[&<>"']/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[character]!);
+
 type Props = {
   items: Provider[];
   city: City | "Вся Беларусь";
@@ -25,7 +27,7 @@ export default function ServiceMap({ items, city, onOpen }: Props) {
 
     import("leaflet").then((L) => {
       if (cancelled || !element.current) return;
-      const center = cityCenters[city];
+      const center = cityCenters[city] ?? (items.length ? [items[0].lat, items[0].lng] as [number,number] : cityCenters["Вся Беларусь"]);
       currentMap = L.map(element.current, { scrollWheelZoom: false }).setView(center, city === "Вся Беларусь" ? 7 : 12);
       map.current = currentMap;
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -36,13 +38,13 @@ export default function ServiceMap({ items, city, onOpen }: Props) {
       items.forEach((item) => {
         const icon = L.divIcon({
           className: "gear-map-icon",
-          html: `<span>${item.priceLabel}</span>`,
+          html: `<span>${escapeHtml(item.priceLabel)}</span>`,
           iconSize: [92, 38],
           iconAnchor: [46, 38],
         });
         L.marker([item.lat, item.lng], { icon })
           .addTo(markerLayer!)
-          .bindTooltip(item.name, { direction: "top" })
+          .bindTooltip(escapeHtml(item.name), { direction: "top" })
           .on("click", () => callback.current(item.id));
       });
       if (items.length > 1) {

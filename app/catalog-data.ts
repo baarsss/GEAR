@@ -1,7 +1,7 @@
 import { categories, brands, models, services, type Category } from "./catalog-taxonomy";
 export { categories, brands, models, services };
 export type { Category };
-export type City = "Минск" | "Гомель" | "Могилёв" | "Витебск" | "Гродно" | "Брест";
+export type City = string;
 export type Payment = "card" | "cash";
 export type Provider = {
   id: number;
@@ -24,6 +24,8 @@ export type Provider = {
   payment: Payment[];
   phone: string;
   createdAt: number;
+  isDemo?: boolean;
+  supportedModels?: Record<string, string[]>;
   description?: string;
   offerings?: { name: string; price: string }[];
   locations?: { address: string; lat: number; lng: number }[];

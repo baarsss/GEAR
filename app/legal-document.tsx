@@ -7,7 +7,7 @@ export default function LegalDocument({title,children}:{title:string;children:Re
     <article className="legal-document">
       <p className="overline">GEAR · Документы</p><h1>{title}</h1>
       <p className="legal-date">Проект от {legal.date} · Версия {legal.version}</p>
-      <div className="legal-draft" role="note">Проект для предварительного ознакомления. Сведения о владельце и условия обработки данных будут утверждены до запуска регистрации. Текущая форма входа демонстрационная: почта и согласие из неё не отправляются и не сохраняются.</div>
+      <div className="legal-draft" role="note">Предварительный документ для ограниченного теста. Вход по e-mail теперь работает: Supabase получает адрес почты и хранит аккаунт, роль и сведения о согласии. Сведения об операторе и окончательные условия должны быть утверждены до открытия регистрации для широкой публики.</div>
       {children}
       <nav className="legal-document-nav" aria-label="Документы"><a href="/privacy">Политика обработки данных</a><a href="/consent">Согласие на обработку данных</a></nav>
     </article>

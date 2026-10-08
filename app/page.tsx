@@ -1,10 +1,11 @@
 "use client";
 
-import { CarFront, ChevronDown, Clock3, Heart, List, Map, MapPin, Menu, Search, SlidersHorizontal, Sparkles, Wrench, X } from "lucide-react";
+import { CarFront, ChevronDown, Clock3, Heart, List, Map, MapPin, Menu, Search, SlidersHorizontal, Sparkles, UserRound, Wrench, X } from "lucide-react";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ServiceMap from "./service-map";
 import AuthForm from "./auth-form";
+import { loadOwnProfile, type UserRole } from "@/lib/supabase-browser";
 import { brands, categories, cities, models, providers as demoProviders, services, type Category, type City, type Provider } from "./catalog-data";
 
 type Language = "ru" | "be" | "en";
@@ -79,6 +80,9 @@ export default function Home() {
   const [favorites,setFavorites]=useState<number[]>([]);
   const [liveProviders,setLiveProviders]=useState<Provider[]>([]);
   const [databaseConnected,setDatabaseConnected]=useState(false);
+  const [authRole,setAuthRole]=useState<UserRole|null>(null);
+
+  useEffect(()=>{let active=true;loadOwnProfile().then(profile=>{if(active)setAuthRole(profile?.role??null)}).catch(()=>{});return()=>{active=false}},[]);
 
   useEffect(()=>{
     const controller = new AbortController();
@@ -120,7 +124,7 @@ export default function Home() {
 
   return <main className="gear-page">
     <div className="utility"><div className="wrap utility-in"><nav><a href="#catalog">{t.catalog}</a><a href="#how">{t.how}</a><a href="#providers">{t.providers}</a></nav><div className="languages" aria-label={t.language}>{(["ru","be","en"] as const).map(value=><button key={value} className={language===value?"active":""} onClick={()=>setLanguage(value)}>{value.toUpperCase()}</button>)}</div></div></div>
-    <header><div className="wrap header-in"><a className="logo" href="#top" aria-label="GEAR">GEAR<span>.</span></a><button className="pill categories" onClick={()=>setPanel("categories")}><Menu size={18}/>{t.allServices}</button><form className="top-search" onSubmit={search}><input aria-label={t.searchPlaceholder} placeholder={t.searchPlaceholder} value={draftQuery} onChange={event=>setDraftQuery(event.target.value)}/>{draftQuery&&<button type="button" aria-label={t.clearSearch} onClick={()=>{setDraftQuery("");setQuery("")}}><X size={16}/></button>}<button type="submit" aria-label={t.find}><Search size={19}/></button></form><button className="pill city" onClick={()=>setPanel("location")}><MapPin size={18}/>{filters.city==="Вся Беларусь"?t.allCountry:filters.city}<ChevronDown size={15}/></button><button className="pill login" onClick={()=>setPanel("login")}>{t.signIn}</button><button className="pill provider" onClick={()=>setPanel("provider")}>{t.providerCabinet}</button></div></header>
+    <header><div className="wrap header-in"><a className="logo" href="#top" aria-label="GEAR">GEAR<span>.</span></a><button className="pill categories" onClick={()=>setPanel("categories")}><Menu size={18}/>{t.allServices}</button><form className="top-search" onSubmit={search}><input aria-label={t.searchPlaceholder} placeholder={t.searchPlaceholder} value={draftQuery} onChange={event=>setDraftQuery(event.target.value)}/>{draftQuery&&<button type="button" aria-label={t.clearSearch} onClick={()=>{setDraftQuery("");setQuery("")}}><X size={16}/></button>}<button type="submit" aria-label={t.find}><Search size={19}/></button></form><button className="pill city" onClick={()=>setPanel("location")}><MapPin size={18}/>{filters.city==="Вся Беларусь"?t.allCountry:filters.city}<ChevronDown size={15}/></button><button className="pill login" onClick={()=>authRole?window.location.assign("/account"):setPanel("login")} aria-label={authRole?"Мой профиль":t.signIn}><UserRound size={18}/><span>{authRole?"Мой профиль":t.signIn}</span></button><button className="pill provider" onClick={()=>authRole?window.location.assign(authRole==="provider"?"/provider":"/account"):setPanel("provider")}>{t.providerCabinet}</button></div></header>
     <section className="wrap intro" id="top"><div><p className="overline">{t.eyebrow}</p><h1>{t.title}</h1><p className="subtitle">{t.subtitle}</p></div><div className="chrome"><Wrench size={36}/></div></section>
     <form className="wrap finder" onSubmit={search}><label><small>{t.task}</small><div><Wrench size={18}/><input placeholder={t.searchPlaceholder} value={draftQuery} onChange={event=>setDraftQuery(event.target.value)}/></div></label><div className="finder-choice"><small>{t.car}</small><button type="button" onClick={()=>setPanel("car")}><CarFront size={18}/>{filters.brand?`${filters.brand}${filters.model?` · ${filters.model}`:""}`:t.any}<ChevronDown size={15}/></button></div><div className="finder-choice"><small>{t.where}</small><button type="button" onClick={()=>setPanel("location")}><MapPin size={18}/>{filters.city==="Вся Беларусь"?t.allCountry:filters.city}<ChevronDown size={15}/></button></div><button className="find" type="submit"><Search size={19}/><span>{t.find}</span></button></form>
     <div className="wrap chips">{chips.map(chip=><button key={chip.key} onClick={chip.remove}>{chip.label}<X size={14}/></button>)}<button className="filter-open" onClick={()=>setFilterDrawer(true)}><SlidersHorizontal size={16}/>{t.filters}</button></div>
@@ -140,7 +144,7 @@ export default function Home() {
       {!databaseConnected&&<p className="demo-label">{language==="en"?"Live listings are not connected yet.":language==="be"?"Рэальныя аб'явы пакуль не падключаны.":"База реальных объявлений пока не подключена."}</p>}
     </section></div>
     <section className="how-section" id="how"><div className="wrap"><p className="overline">GEAR</p><h2>{t.howTitle}</h2><div className="steps"><article><span>01</span><h3>{t.step1}</h3><p>{t.step1Body}</p></article><article><span>02</span><h3>{t.step2}</h3><p>{t.step2Body}</p></article><article><span>03</span><h3>{t.step3}</h3><p>{t.step3Body}</p></article></div><a href="#catalog" className="black-button">{t.find}</a></div></section>
-    <section className="provider-section" id="providers"><div className="wrap provider-inner"><div><p className="overline">GEAR</p><h2>{t.providerTitle}</h2><p>{t.providerText}</p></div><button className="outline-button" onClick={()=>setPanel("provider")}>{t.conditions}</button></div></section>
+    <section className="provider-section" id="providers"><div className="wrap provider-inner"><div><p className="overline">GEAR</p><h2>{t.providerTitle}</h2><p>{t.providerText}</p></div><button className="outline-button" onClick={()=>authRole?window.location.assign(authRole==="provider"?"/provider":"/account"):setPanel("provider")}>{authRole==="provider"?t.providerCabinet:t.conditions}</button></div></section>
     <footer><div className="wrap"><a className="logo" href="#top">GEAR<span>.</span></a><p>{t.eyebrow}</p><div className="languages" aria-label={t.language}>{(["ru","be","en"] as const).map(value=><button key={value} className={language===value?"active":""} onClick={()=>setLanguage(value)}>{value.toUpperCase()}</button>)}</div></div></footer>
     <Dialog open={panel!==null} onOpenChange={open=>!open&&setPanel(null)}><DialogContent className="gear-dialog">{panel&&<PanelContent key={panel} panel={panel} close={()=>setPanel(null)} t={t} language={language} filters={filters} availableCities={availableCities} update={update} chooseService={value=>{setDraftQuery(value);setQuery(value);update("category","")}}/>}</DialogContent></Dialog>
   </main>;
@@ -153,7 +157,7 @@ function PanelContent({panel,close,t,language,filters,availableCities,update,cho
   if(panel==="categories")return <CategoryPicker selected={filters.category} title={t.chooseCategory} onCategory={value=>{update("category",value);close()}} onService={value=>{chooseService(value);close()}}/>;
   if(panel==="location")return <><DialogHeader><DialogTitle>{t.chooseCity}</DialogTitle></DialogHeader><div className="choice-grid cities">{availableCities.map(city=><button className={filters.city===city?"chosen":""} key={city} onClick={()=>{update("city",city);close()}}><MapPin size={18}/>{city==="Вся Беларусь"?t.allCountry:city}</button>)}</div></>;
   if(panel==="car")return <CarPicker filters={filters} update={update} close={close} t={t}/>;
-  return <><DialogHeader><DialogTitle>{panel==="provider"?t.providerCabinet:t.loginTitle}</DialogTitle><DialogDescription>{panel==="provider"?t.providerTextModal:t.loginText}</DialogDescription></DialogHeader><AuthForm language={language} labels={t}/></>;
+  return <><DialogHeader><DialogTitle>{panel==="provider"?t.providerCabinet:t.loginTitle}</DialogTitle><DialogDescription>{language==="en"?"Choose a role and confirm your email to continue.":language==="be"?"Абярыце ролю і пацвердзіце e-mail, каб працягнуць.":"Выберите роль и подтвердите e-mail, чтобы продолжить."}</DialogDescription></DialogHeader><AuthForm language={language} labels={t} initialRole={panel==="provider"?"provider":"consumer"}/></>;
 }
 
 function CategoryPicker({selected,title,onCategory,onService}:{selected:Category|"";title:string;onCategory:(value:Category|"")=>void;onService:(value:string)=>void}){

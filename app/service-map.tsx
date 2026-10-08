@@ -38,7 +38,7 @@ export default function ServiceMap({ items, city, onOpen }: Props) {
       items.forEach((item) => {
         const icon = L.divIcon({
           className: "gear-map-icon",
-          html: `<span>${escapeHtml(item.priceLabel)}</span>`,
+          html: `<span class="${item.promoted ? "promoted-map-pin" : ""}">${escapeHtml(item.priceLabel)}</span>`,
           iconSize: [92, 38],
           iconAnchor: [46, 38],
         });
